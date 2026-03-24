@@ -2,84 +2,95 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     color: white;
-    background: #050816;
+    background: #020617;
+    overflow-x: hidden;
 }
 
-/* Animated glowing background */
+/* Animated blue tech background */
 .background {
     position: fixed;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, #1e3a8a, #050816);
-    animation: glow 10s infinite alternate;
+    background: radial-gradient(circle at top, #0ea5e9, #020617);
+    animation: pulse 8s infinite alternate;
     z-index: -1;
 }
 
-@keyframes glow {
+@keyframes pulse {
     0% { filter: brightness(1); }
-    100% { filter: brightness(1.5); }
+    100% { filter: brightness(1.4); }
 }
 
+/* NAV */
 .nav {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 20px 40px;
 }
 
 .nav a {
-    margin: 10px;
     color: #38bdf8;
+    margin-left: 20px;
     text-decoration: none;
 }
 
+/* HERO */
 .hero {
     text-align: center;
-    padding: 100px 20px;
+    padding: 120px 20px;
 }
 
 .hero h1 {
-    font-size: 50px;
-    background: linear-gradient(90deg, #38bdf8, #a78bfa);
+    font-size: 55px;
+    background: linear-gradient(90deg, #38bdf8, #0ea5e9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.hero button {
-    padding: 10px 20px;
+/* BUTTON */
+button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: linear-gradient(90deg, #0ea5e9, #2563eb);
     border: none;
-    background: #22c55e;
     color: white;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
+/* SECTIONS */
 .section {
-    padding: 60px 20px;
+    padding: 80px 20px;
     text-align: center;
 }
 
-.cards {
+/* GRID */
+.grid {
     display: flex;
-    justify-content: center;
     gap: 20px;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
+/* CARDS */
 .card {
+    padding: 25px;
     background: rgba(255,255,255,0.05);
-    padding: 20px;
-    border-radius: 10px;
+    border-radius: 12px;
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(56,189,248,0.2);
     transition: 0.3s;
+    border-left: 3px solid #38bdf8;
 }
 
 .card:hover {
-    transform: scale(1.1);
-    background: rgba(255,255,255,0.1);
+    transform: translateY(-10px);
+    border: 1px solid #38bdf8;
 }
 
+/* FOOTER */
 footer {
     text-align: center;
     padding: 20px;
-    opacity: 0.6;
+    opacity: 0.5;
 }

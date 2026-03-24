@@ -1,62 +1,696 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Pravin Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pravin | Senior System Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan: #00e5ff;
+      --cyan-dim: #0099bb;
+      --black: #03050f;
+      --panel: rgba(3, 8, 22, 0.85);
+      --border: rgba(0, 229, 255, 0.2);
+      --text: #cce8ff;
+      --muted: #4a7a99;
+      --font-mono: 'Share Tech Mono', monospace;
+      --font-head: 'Rajdhani', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: var(--font-mono);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    #hexbg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2.5rem;
+      background: rgba(3, 5, 15, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    section {
+      position: relative;
+      z-index: 10;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 7rem 2rem 4rem;
+    }
+
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 5rem;
+    }
+
+    .hero-tag {
+      font-size: 0.72rem;
+      letter-spacing: 4px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .hero-tag span { color: var(--cyan); animation: blink 1.2s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .hero-name {
+      font-family: var(--font-head);
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .hero-name em {
+      color: var(--cyan);
+      font-style: normal;
+      text-shadow: 0 0 40px rgba(0,229,255,0.45);
+    }
+
+    .hero-role {
+      font-family: var(--font-head);
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .hero-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn {
+      padding: 0.7rem 1.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--black);
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+      font-weight: 700;
+    }
+    .btn-primary:hover { background: #fff; }
+    .btn-outline {
+      background: transparent;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    }
+    .btn-outline:hover { background: rgba(0,229,255,0.08); }
+
+    .sec-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .sec-number { font-size: 0.7rem; color: var(--cyan); letter-spacing: 2px; }
+    .sec-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+    .sec-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--cyan-dim), transparent);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+    }
+    .about-panel::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px;
+      width: 20px; height: 20px;
+      border-top: 2px solid var(--cyan);
+      border-left: 2px solid var(--cyan);
+    }
+    .about-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; right: -1px;
+      width: 20px; height: 20px;
+      border-bottom: 2px solid var(--cyan);
+      border-right: 2px solid var(--cyan);
+    }
+
+    .panel-label {
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .panel-text {
+      font-size: 0.82rem;
+      line-height: 1.9;
+      color: var(--text);
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(0,229,255,0.08);
+      font-size: 0.8rem;
+      gap: 1rem;
+    }
+    .info-key { color: var(--muted); white-space: nowrap; }
+    .info-val { color: var(--cyan); text-align: right; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .skill-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-4px);
+    }
+
+    .skill-card-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+    .skill-tag {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.85rem;
+      border: 1px solid rgba(0,229,255,0.3);
+      color: var(--text);
+      background: rgba(0,229,255,0.05);
+      letter-spacing: 1px;
+      transition: all 0.25s;
+    }
+    .skill-tag:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0,229,255,0.1);
+    }
+
+    footer {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 2px;
+    }
+    footer span { color: var(--cyan); }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── EXPERIENCE TIMELINE ── */
+    .exp-timeline { position: relative; padding-left: 1.5rem; }
+    .exp-timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--cyan), transparent);
+    }
+
+    .exp-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.5rem 1.5rem 1.8rem;
+      transition: border-color 0.3s;
+    }
+    .exp-item:hover { border-color: var(--cyan); }
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -1.93rem;
+      top: 1.4rem;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .exp-header { margin-bottom: 0.6rem; }
+    .exp-role {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+    .exp-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      margin-top: 0.3rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .exp-company { color: var(--cyan); }
+    .exp-period { color: var(--muted); }
+    .exp-location { color: var(--muted); }
+
+    .exp-bullets {
+      margin-top: 0.9rem;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .exp-bullets li {
+      font-size: 0.78rem;
+      color: var(--text);
+      line-height: 1.7;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+      font-size: 0.7rem;
+    }
+  </style>
 </head>
 <body>
 
-<div class="background"></div>
+<canvas id="hexbg"></canvas>
 
-<header class="nav">
-    <h2>⚡ Pravin Portfolio</h2>
-    <nav>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </nav>
-</header>
+<nav>
+  <div class="nav-logo">Pravin</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-<section class="hero">
-    <h1>I Build Intelligent AI Systems</h1>
-    <p>DevOps | IT Admin | Hardware Engineer</p>
-    <button onclick="scrollToSection('contact')">Want more info?</button>
+<section id="hero">
+  <p class="hero-tag">// system engineer online<span>_</span></p>
+  <h1 class="hero-name"><em>Pravin</em></h1>
+  <p class="hero-role">Senior System Engineer</p>
+  <p class="hero-desc">
+    Experienced in desktop support, Windows Server, POS systems, SAP platform and VSAT technology.
+    Proven track record in managing IT infrastructure and resolving complex technical issues.
+  </p>
+  <div class="hero-btns">
+    <a href="#about" class="btn btn-primary">View Profile</a>
+    <a href="#contact" class="btn btn-outline">Get In Touch</a>
+  </div>
 </section>
 
-<section id="about" class="section">
-    <h2>About Me</h2>
-    <p>Write your personal introduction here.</p>
-</section>
-
-<section id="skills" class="section">
-    <h2>Skills</h2>
-    <div class="cards">
-        <div class="card">Microsoft Windows</div>
-        <div class="card">Azure</div>
-        <div class="card">Intune</div>
-        <div class="card">Firewall</div>
+<section id="about">
+  <div class="sec-header reveal">
+    <span class="sec-number">01.</span>
+    <h2 class="sec-title">About</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-panel reveal">
+      <p class="panel-label">// profile.txt</p>
+      <p class="panel-text">
+        Experienced Senior System Engineer specialising in desktop support, Windows Server,
+        POS systems, SAP platform and VSAT technology. Proven track record in managing and
+        maintaining IT infrastructure, resolving complex technical issues, and optimizing
+        system performance.
+      </p>
     </div>
-</section>
-
-<section id="projects" class="section">
-    <h2>Projects</h2>
-    <div class="cards">
-        <div class="card">Project 1</div>
-        <div class="card">Project 2</div>
-        <div class="card">Project 3</div>
+    <div class="about-panel reveal" style="transition-delay:0.15s">
+      <p class="panel-label">// info.sys</p>
+      <div class="info-row"><span class="info-key">Role</span><span class="info-val">Senior System Engineer</span></div>
+      <div class="info-row"><span class="info-key">Speciality</span><span class="info-val">Desktop Support</span></div>
+      <div class="info-row"><span class="info-key">Platform</span><span class="info-val">SAP / VSAT</span></div>
+      <div class="info-row"><span class="info-key">Status</span><span class="info-val">Available</span></div>
+      <div class="info-row" style="border:none"><span class="info-key">Location</span><span class="info-val">India</span></div>
     </div>
+  </div>
 </section>
 
-<section id="contact" class="section">
-    <h2>Contact</h2>
-    <p>Email: your@email.com</p>
+<section id="skills">
+  <div class="sec-header reveal">
+    <span class="sec-number">02.</span>
+    <h2 class="sec-title">Skills</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <p class="skill-card-title">// Systems</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Windows Server</span>
+        <span class="skill-tag">Mac Machines</span>
+        <span class="skill-tag">Active Directory</span>
+      </div>
+    </div>
+    <div class="skill-card reveal" style="transition-delay:0.1s">
+      <p class="skill-card-title">// Networking</p>
+      <div class="skill-tags">
+        <span class="skill-tag">TCP/IP &amp; DNS</span>
+        <span class="skill-tag">Firewall Config</span>
+        <span class="skill-tag">VPN &amp; Security</span>
+        <span class="skill-tag">Network Monitoring</span>
+      </div>
+    </div>
+    <div class="skill-card reveal" style="transition-delay:0.2s">
+      <p class="skill-card-title">// Tools</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Microsoft 365</span>
+        <span class="skill-tag">Intune</span>
+        <span class="skill-tag">Azure</span>
+        <span class="skill-tag">Defender</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="sec-header reveal">
+    <span class="sec-number">03.</span>
+    <h2 class="sec-title">Experience</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="exp-timeline">
+
+    <div class="exp-item reveal">
+      <div class="exp-header">
+        <p class="exp-role">Sr. IT Administrator</p>
+        <div class="exp-meta">
+          <span class="exp-company">Lumel Technologies</span>
+          <span class="exp-period">March 2024 – Present</span>
+          <span class="exp-location">Chennai, Tamil Nadu</span>
+        </div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Leading IT team, overseeing daily operations, task allocation, and ensuring timely issue resolution.</li>
+        <li>Microsoft 365 Admin Center, Microsoft Intune (Windows &amp; macOS deployments), Azure AD &amp; device management, Microsoft Defender, firewalls, antivirus solutions.</li>
+        <li>ISO auditing, SOPs and documentation management.</li>
+        <li>Vendor procurement and coordination.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal" style="transition-delay:0.1s">
+      <div class="exp-header">
+        <p class="exp-role">Management Information Systems Engineer</p>
+        <div class="exp-meta">
+          <span class="exp-company">AVS Tech</span>
+          <span class="exp-period">July 2022 – March 2024</span>
+          <span class="exp-location">Hosur / Bangalore, TN</span>
+        </div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Installation and configuration of information and data platforms including SAP and Tally.</li>
+        <li>General desktop and server maintenance including installation and upgradation.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal" style="transition-delay:0.15s">
+      <div class="exp-header">
+        <p class="exp-role">System Engineer</p>
+        <div class="exp-meta">
+          <span class="exp-company">Saravana Store Tex</span>
+          <span class="exp-period">July 2019 – June 2022</span>
+          <span class="exp-location">Chennai, Tamil Nadu</span>
+        </div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Handled POS systems procurement, initialization and deployment throughout the Chennai region.</li>
+        <li>Managed Windows Server and client upgrades across all stores.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal" style="transition-delay:0.2s">
+      <div class="exp-header">
+        <p class="exp-role">Technical Engineer Assistant</p>
+        <div class="exp-meta">
+          <span class="exp-company">Qube Cinema Technologies</span>
+          <span class="exp-period">March 2017 – June 2019</span>
+          <span class="exp-location">Chennai, Tamil Nadu</span>
+        </div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Orchestrated server upgrades and installation of new systems including Windows/Linux desktop operating systems.</li>
+        <li>V-SAT configuration for authenticated movie screenings and tokenization.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal" style="transition-delay:0.25s">
+      <div class="exp-header">
+        <p class="exp-role">Technical Services Assistant</p>
+        <div class="exp-meta">
+          <span class="exp-company">Arka Direct</span>
+          <span class="exp-period">March 2014 – January 2017</span>
+          <span class="exp-location">Puducherry</span>
+        </div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Streamlined and coordinated the deployment of STB devices across the Puducherry region.</li>
+        <li>Handled ticketing and dispatching operations.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<section id="contact">
+  <div class="sec-header reveal">
+    <span class="sec-number">04.</span>
+    <h2 class="sec-title">Contact</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="about-panel reveal" style="max-width:460px">
+    <p class="panel-label">// reach_out.sh</p>
+    <div class="info-row"><span class="info-key">Email</span><span class="info-val">pravin@email.com</span></div>
+    <div class="info-row"><span class="info-key">LinkedIn</span><span class="info-val">linkedin.com/in/pravin</span></div>
+    <div class="info-row" style="border:none"><span class="info-key">GitHub</span><span class="info-val">github.com/pravin</span></div>
+  </div>
 </section>
 
 <footer>
-    <p>© 2026 Pravin Portfolio</p>
+  <p>Built by <span>Pravin</span> &mdash; Senior System Engineer &mdash; &copy; 2025</p>
+  <p style="margin-top:0.4rem;font-size:0.65rem;opacity:0.4">// all systems operational</p>
 </footer>
 
-<script src="script.js"></script>
+<script>
+// ── GLOWING HEX GRID ──
+const canvas = document.getElementById('hexbg');
+const ctx = canvas.getContext('2d');
+let W, H, hexes = [], mouse = { x: -9999, y: -9999 };
+
+const HEX_SIZE = 36;        // radius of each hex
+const GAP = 3;              // space between hexes
+const PULSE_SPEED = 0.018;
+const RIPPLE_RADIUS = 180;  // mouse influence radius
+
+function hexCorners(cx, cy, r) {
+  const pts = [];
+  for (let i = 0; i < 6; i++) {
+    const a = Math.PI / 180 * (60 * i - 30);
+    pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
+  }
+  return pts;
+}
+
+function buildGrid() {
+  hexes = [];
+  const s = HEX_SIZE + GAP;
+  const w = s * 2;
+  const h = Math.sqrt(3) * s;
+  const cols = Math.ceil(W / w) + 2;
+  const rows = Math.ceil(H / h) + 2;
+  for (let row = -1; row < rows; row++) {
+    for (let col = -1; col < cols; col++) {
+      const cx = col * w + (row % 2 === 0 ? 0 : s);
+      const cy = row * h * 0.5;
+      hexes.push({
+        cx, cy,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.008 + Math.random() * 0.012,
+        baseAlpha: 0.04 + Math.random() * 0.08
+      });
+    }
+  }
+}
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  buildGrid();
+}
+resize();
+window.addEventListener('resize', resize);
+window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+let t = 0;
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  // deep background
+  ctx.fillStyle = '#03050f';
+  ctx.fillRect(0, 0, W, H);
+
+  t += PULSE_SPEED;
+
+  for (const h of hexes) {
+    h.phase += h.speed;
+    const pulse = 0.5 + 0.5 * Math.sin(h.phase);
+
+    // distance from mouse
+    const dx = h.cx - mouse.x;
+    const dy = h.cy - mouse.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const mouseFactor = dist < RIPPLE_RADIUS
+      ? (1 - dist / RIPPLE_RADIUS) * 0.75
+      : 0;
+
+    const alpha = h.baseAlpha + pulse * 0.12 + mouseFactor;
+    const strokeAlpha = 0.12 + pulse * 0.18 + mouseFactor * 0.6;
+
+    const pts = hexCorners(h.cx, h.cy, HEX_SIZE - 1);
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < 6; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    ctx.closePath();
+
+    // fill
+    ctx.fillStyle = `rgba(0,180,220,${alpha})`;
+    ctx.fill();
+
+    // stroke — brighter near mouse
+    if (dist < RIPPLE_RADIUS) {
+      ctx.strokeStyle = `rgba(0,229,255,${strokeAlpha})`;
+      ctx.lineWidth = 0.8 + mouseFactor * 1.2;
+    } else {
+      ctx.strokeStyle = `rgba(0,100,160,${strokeAlpha})`;
+      ctx.lineWidth = 0.5;
+    }
+    ctx.stroke();
+
+    // hot center dot on hovered hexes
+    if (dist < RIPPLE_RADIUS * 0.5) {
+      const dotAlpha = (1 - dist / (RIPPLE_RADIUS * 0.5)) * 0.9;
+      ctx.beginPath();
+      ctx.arc(h.cx, h.cy, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,255,220,${dotAlpha})`;
+      ctx.fill();
+    }
+  }
+
+  requestAnimationFrame(draw);
+}
+draw();
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
